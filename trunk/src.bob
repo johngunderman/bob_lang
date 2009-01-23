@@ -1,0 +1,49 @@
+(puts "Hello! World") 
+
+;example of car
+(puts (car (list a b c)))
+
+;example of quote
+(puts (quote b))
+
+;example of multiple puts args
+(puts (quote a) (list a b c) 'b)
+
+;example of atom
+(puts (atom 'a))
+
+(puts (cdr '(a b c)))
+
+;example of variable assignment:
+(define a 5)
+(puts a)
+
+(puts (atom '(a c b)))
+
+;example of eq:
+(puts (eq '(a (b) c) '(a (b) c)))
+
+;example of a cons statement:
+(puts (cons 'a '(b c)))
+
+;example of a cond statement:
+(cond 
+	((atom 'a) (puts "gotcha"))
+	('true (puts "Hello world")))
+	
+(define b (puts "hello world"))
+(eval b)
+
+
+(define test2 (a) (puts a))
+
+(test2 "bo-yeah")
+
+(puts c)
+
+(define not. (x)
+	(cond 
+		(x 'false)
+		('true 'true)))
+
+(puts (not. (eq 'a 'a)))	

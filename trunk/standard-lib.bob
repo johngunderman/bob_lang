@@ -1,0 +1,24 @@
+;standard lib for bob-language.
+
+(define null (x)
+	(eq x 'false))
+	
+
+
+(define and (x y)
+	(cond 
+		(x (cond 
+			(y 'true)
+			('true 'false)))
+		('true 'false)))
+
+
+(define not (x)
+	(cond 
+		(x 'false)
+		('true 'true)))
+
+(define c 5)
+
+(puts (not true))	
+	
