@@ -1,0 +1,11 @@
+Bob 0.1.0 (Jan 22, 2009):
+by John Gunderman (johngunderman@gmail.com)
+
+Bob is an experimental foray into the world of
+lisp-like interpreters. Bob is a language implemented
+on top of an interpreter on the JVM.
+
+
+For a quick installation:
+	- unpackage the tarball and run the .jar archive.
+	
