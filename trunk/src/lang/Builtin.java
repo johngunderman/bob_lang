@@ -3,7 +3,7 @@ package lang;
 //builtin methods for Bob
 public class Builtin {
 		
-	public static BobObject invoke(String funcName, BobList args, BobList environ) throws BobException {
+	public static BobObject invoke(String funcName, BobList args, Environment environ) throws BobException {
 		BobObject returned = null;
 		if (funcName.equals("print")) print(args, environ);
 		else if (funcName.equals("puts")) puts(args, environ);
@@ -23,18 +23,19 @@ public class Builtin {
 			BobObject func = Language.assoc(new BobToken(funcName), environ);
 			if ( func instanceof BobFunction) {
 				if ( args.size() == ((BobFunction) func).getArgs().size() ) {
-					BobList localEnviron = new BobList(new Expression());
+					//important to enter new scope
+					environ.enterNewScope();
 					for (int x = 0; x < args.size(); x++) {
-						Expression pair = new Expression();
 						//assoc local vars in new environ
-						pair.add(((BobFunction) func).getArgs().getValue().get(x));
-						pair.add(args.getValue().get(x));
-						localEnviron.getValue().add(new BobList(pair));
+						environ.define( ((BobFunction) func).getArgs().getValue().get(x).toString(),
+								args.getValue().get(x));
 					}
 					//weird hack to make eval work, wants expression nested.
 					BobList body = new BobList(new Expression());
 					body.getValue().add((BobList) func.getValue());
-					returned = eval( body, localEnviron );
+					returned = eval( body, environ );
+					//important to exit current scope
+					environ.exitCurrentScope();
 				}
 				else throw new BobException("EVAL: WRONG NUMBER OF ARGS", Language.traceback);
 			}
@@ -53,38 +54,37 @@ public class Builtin {
 		}
 	}
 	
-	public static void print( BobList list, BobList environ ) throws BobException {
+	public static void print( BobList list, Environment environ ) throws BobException {
 		for (BobObject elem : list.getValue() ) {
 			System.out.print( Language.eval( elem, environ ) + " " );
 		}	
 	}
 	
-	public static void puts( BobList list, BobList environ ) throws BobException {
+	public static void puts( BobList list, Environment environ ) throws BobException {
 		print( list, environ );
 		System.out.println();
 	}
 	
-	public static void define( BobList toMake, BobList environ) throws BobException {
+	public static void define( BobList toMake, Environment environ) throws BobException {
 		//we don't want to throw an error if wrong args.
 		if ( toMake.getValue().size() == 2 ) {
 			if ( toMake.car() instanceof BobToken ) {
-				environ.getValue().add(toMake);
+				environ.define( toMake.car().toString(), toMake.cdr().car() );
 			}
 		}
+		//functions
 		else if (paramsGood(3, toMake.getValue().size()) ) {
 			if ( toMake.car() instanceof BobToken 
 					&& toMake.cdr().car() instanceof BobList
 					&& toMake.cdr().cdr().car() instanceof BobList ) {
-				Expression pair = new Expression();
-				pair.add(toMake.car());
-				pair.add(new BobFunction(
-						//args
-						(BobList) toMake.cdr().car(),
-						//body
-						(BobList) toMake.cdr().cdr().car()
-						)
-				);
-				environ.getValue().add(new BobList( pair ));
+				environ.define(toMake.car().toString(),
+						new BobFunction(
+								//args
+								(BobList) toMake.cdr().car(),
+								//body
+								(BobList) toMake.cdr().cdr().car()
+							)
+					);
 			}
 			else throw new BobException("ERROR: MAKE: MALFORMED FUNCTION FORM", Language.traceback);
 		}
@@ -100,7 +100,7 @@ public class Builtin {
 		else return null;
 	}
 	
-	public static BobObject car( BobList toCar, BobList environ) throws BobException {
+	public static BobObject car( BobList toCar, Environment environ) throws BobException {
 		BobObject returned = null;
 		//take the car of it because apply returns results in list, so we want the list inside the list.
 		BobObject evaled = ((BobList) Language.eval( toCar, environ)).car();
@@ -111,7 +111,7 @@ public class Builtin {
 		return returned; 
 	}
 	
-	public static BobObject cdr( BobList toCdr, BobList environ ) throws BobException {
+	public static BobObject cdr( BobList toCdr, Environment environ ) throws BobException {
 		BobObject returned = null;
 		//take the car of it because apply returns results in list, so we want the list inside the list.
 		BobObject evaled = ( (BobList) Language.eval( toCdr, environ)).car();
@@ -122,19 +122,19 @@ public class Builtin {
 		return returned; 
 	}
 	
-	public static BobObject list( BobList toList, BobList environ ) {
+	public static BobObject list( BobList toList, Environment environ ) {
 		//toList.setEvaluated(false);
 		return toList;
 	}
 	
-	public static BobObject atom( BobList isAtom, BobList environ ) throws BobException {
+	public static BobObject atom( BobList isAtom, Environment environ ) throws BobException {
 		if ( Language.eval( isAtom.car(), environ) instanceof Atom) {
 			return Constant.TRUE;
 		}
 		else return Constant.FALSE;
 	}
 	
-	public static BobObject eq(BobList areEqual, BobList environ ) throws BobException {
+	public static BobObject eq(BobList areEqual, Environment environ ) throws BobException {
 		if (paramsGood(2, areEqual.getValue().size() ))
 			if ( Language.eval( areEqual.car(), environ )
 					.getValue().equals( 
@@ -146,7 +146,7 @@ public class Builtin {
 		return null;
 	}
 	
-	public static BobObject cons(BobList toCons, BobList environ) throws BobException {
+	public static BobObject cons(BobList toCons, Environment environ) throws BobException {
 		Expression newList = new Expression();
 		if (paramsGood(2, toCons.getValue().size() ) ) {
 			if (toCons.cdr().car() instanceof BobList ) {
@@ -159,7 +159,7 @@ public class Builtin {
 		return new BobList(newList);
 	}
 	
-	public static BobObject cond(BobList args, BobList environ ) throws BobException {
+	public static BobObject cond(BobList args, Environment environ ) throws BobException {
 		BobObject returned = null;
 		//TODO: NEEDS DEBUGGING BADLY
 		for (BobObject elem : args.getValue()) {
@@ -177,7 +177,7 @@ public class Builtin {
 		return returned;
 	}
 	
-	public static BobObject eval(BobList args, BobList environ ) throws BobException {
+	public static BobObject eval(BobList args, Environment environ ) throws BobException {
 		BobObject returned = null;
 		System.out.println(args);
 		if (paramsGood(1, args.getValue().size() ) ) {

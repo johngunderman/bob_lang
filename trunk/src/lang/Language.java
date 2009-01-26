@@ -6,7 +6,7 @@ public class Language {
 
 	public static Stack<String> traceback = new Stack<String>();
 	
-	public static BobObject eval( BobObject<?> expr, BobList environment ) throws BobException {
+	public static BobObject eval( BobObject<?> expr, Environment environment ) throws BobException {
 		traceback.push(expr.toString());
 		BobObject<?> returned = null;
 		
@@ -39,7 +39,7 @@ public class Language {
 		
 			
 	
-	public static BobList apply(BobList expr, BobList environment) throws BobException {
+	public static BobList apply(BobList expr, Environment environment) throws BobException {
 		BobList returned = new BobList(new Expression());
 		
 		for (BobObject elem : expr.getValue() ) {
@@ -49,20 +49,11 @@ public class Language {
 	}
 	
 	
-	public static BobObject assoc( BobObject expr , BobList environment) throws BobException {
+	public static BobObject assoc( BobObject expr , Environment environment) throws BobException {
 		BobObject returned = null;
-		Boolean found = false;
 		
 		if (expr instanceof BobToken) {
-			for (BobObject pair : environment.getValue() ) {
-				//if expr = car, replace with cadr
-				if ( ((BobList) pair).getValue().get(0).toString().equals(expr.getValue().toString()) ) {
-					returned = ((BobList) pair).getValue().get(1);
-					found = true;
-					break;
-				}
-			}
-			if (!found) throw new BobException("ERROR: UNDEFINED VAR (in assoc): " + expr, traceback);		
+			return environment.find( expr.toString() );
 		}
 		else { 
 			returned = expr;

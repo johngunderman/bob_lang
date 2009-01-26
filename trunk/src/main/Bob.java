@@ -49,7 +49,7 @@ public class Bob {
 		//debug
 		//System.out.println(tree);
 		
-		BobList environ = new BobList(new Expression());
+		Environment environ = new Environment();
 		
 		try {
 			Language.eval( preLoad, environ );
