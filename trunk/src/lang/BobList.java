@@ -43,23 +43,13 @@ public class BobList extends BobObject<Expression> {
 		return returned;
 	}
 	
-	public boolean hasNested() {
-		boolean hasNested = false;
-		
-		for (BobObject elem : getValue() ) {
-			if (elem instanceof BobList) {
-				hasNested = true;
-			}
-		}
-		return hasNested;
-	}//end method hasNested()
-	
 	
 	public int size() {
 		return getValue().size();
 	}
 	
 	//returns total # of tokens in this 'branch' / list
+	//used in parser
 	public int totalSize() {
 		//the +1 accounts for parenthesis that are not included in the list itself.
 		int returned = this.getValue().size() + 1;
