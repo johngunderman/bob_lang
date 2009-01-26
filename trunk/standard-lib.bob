@@ -20,5 +20,5 @@
 
 (define c 5)
 
-(puts (not true))	
+(puts (not 'true))	
 	

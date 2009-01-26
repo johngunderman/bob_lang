@@ -31,7 +31,7 @@
 	((atom 'a) (puts "gotcha"))
 	('true (puts "Hello world")))
 	
-(define b (puts "hello world"))
+(define b '(puts "hello world"))
 (eval b)
 
 
@@ -46,4 +46,5 @@
 		(x 'false)
 		('true 'true)))
 
-(puts (not. (eq 'a 'a)))	
+(puts (eq 'a 'a))
+(puts (not (eq 'a 'a)))	

@@ -69,7 +69,11 @@ public class Builtin {
 		//we don't want to throw an error if wrong args.
 		if ( toMake.getValue().size() == 2 ) {
 			if ( toMake.car() instanceof BobToken ) {
-				environ.define( toMake.car().toString(), toMake.cdr().car() );
+				BobObject value =Language.eval( toMake.cdr().car(), environ );
+				if (value != null) {
+					environ.define( toMake.car().toString(), null);
+				}
+				else throw new BobException("ERROR: Cannot define variable to null value:", Language.traceback);
 			}
 		}
 		//functions
@@ -179,7 +183,6 @@ public class Builtin {
 	
 	public static BobObject eval(BobList args, Environment environ ) throws BobException {
 		BobObject returned = null;
-		System.out.println(args);
 		if (paramsGood(1, args.getValue().size() ) ) {
 			if (args.car() instanceof BobToken) {
 				//once for grabbing the var value, once for evaling it 
