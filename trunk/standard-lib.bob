@@ -1,24 +1,37 @@
 ;standard lib for bob-language.
 
+(define cadr (x)
+  (car (cdr x)))
+  
+(define caar (x)
+  (car (car x)))
+  
+(define cadar (x)
+  (car (cdr (car x))))
+
 (define null (x)
-	(eq x 'false))
+  (eq x '()))
 	
-
-
 (define and (x y)
-	(cond 
-		(x (cond 
-			(y 'true)
-			('true 'false)))
+  (cond (x (cond (y 'true)
+			     ('true 'false)))
 		('true 'false)))
 
-
 (define not (x)
-	(cond 
-		(x 'false)
+  (cond (x 'false)
 		('true 'true)))
 
-(define c 5)
+(define append (x y)
+  (cond ((null x) y)
+  		('true (cons (car x) (append (cdr x) y)))))
+  		
+;(define pair (x y)
+;  (cond ((and (null x) (null y) '())
+;		((and (not (atom x)) (not (atom y)))
+;		 (cons (list (car x) (car y))
+;		 	   (pair (cdr x) (cdr y)))))))
 
-(puts (not 'true))	
+(define assoc (x y)
+  (cond ((eq (caar y) x) (cadar y))
+  		('true (assoc x (cdr y))))) 	
 	

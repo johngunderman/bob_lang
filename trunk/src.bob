@@ -39,12 +39,11 @@
 
 (test2 "bo-yeah")
 
-(puts c)
-
-(define not. (x)
-	(cond 
-		(x 'false)
-		('true 'true)))
 
 (puts (eq 'a 'a))
 (puts (not (eq 'a 'a)))	
+
+(puts (cons 'a '()))
+
+;(puts (assoc 'x '((x a) (y b))))
+(puts (eq '() '()))

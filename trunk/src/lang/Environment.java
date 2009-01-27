@@ -38,7 +38,7 @@ public class Environment {
 				return var;
 			}
 		}
-		throw new BobException("ERROR: no value for token:", Language.traceback);
+		throw new BobException("ERROR: no value for token: " + key, Language.traceback);
 	}
 	
 	public String toString() {

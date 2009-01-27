@@ -28,7 +28,7 @@ public class Builtin {
 					for (int x = 0; x < args.size(); x++) {
 						//assoc local vars in new environ
 						environ.define( ((BobFunction) func).getArgs().getValue().get(x).toString(),
-								args.getValue().get(x));
+								Language.eval( args.getValue().get(x), environ ));
 					}
 					//weird hack to make eval work, wants expression nested.
 					BobList body = new BobList(new Expression());
@@ -46,11 +46,11 @@ public class Builtin {
 	
 	
 	//checks if the correct amount of parameters have been passed.
-	public static boolean paramsGood(int expected, int given) {
+	public static boolean paramsGood(int expected, int given) throws BobException {
 		if (expected == given) return true; 
 		else{
 			//TODO: change to something besides RuntimeException
-			throw new RuntimeException("EVAL: bad params. Expected:" + expected + " Given:" + given);
+			throw new BobException("EVAL: bad params. Expected:" + expected + " Given:" + given, Language.traceback);
 		}
 	}
 	
@@ -71,7 +71,7 @@ public class Builtin {
 			if ( toMake.car() instanceof BobToken ) {
 				BobObject value =Language.eval( toMake.cdr().car(), environ );
 				if (value != null) {
-					environ.define( toMake.car().toString(), null);
+					environ.define( toMake.car().toString(), value);
 				}
 				else throw new BobException("ERROR: Cannot define variable to null value:", Language.traceback);
 			}
@@ -98,7 +98,7 @@ public class Builtin {
 
 	//SEVEN PRIMITIVE OPERATORS
 	
-	public static BobObject quote( BobList toQuote ) {
+	public static BobObject quote( BobList toQuote ) throws BobException {
 		if (paramsGood(1, toQuote.getValue().size() ) )
 			return toQuote.car(); 
 		else return null;
