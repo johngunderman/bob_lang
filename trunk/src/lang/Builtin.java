@@ -17,6 +17,11 @@ public class Builtin {
 		else if (funcName.equals("cons")) returned = cons(args, environ);
 		else if (funcName.equals("cond")) returned = cond(args, environ);
 		else if (funcName.equals("eval")) returned = eval(args, environ);
+		else if (funcName.equals("sum")) returned = sum(args, environ);
+		else if (funcName.equals("subtract")) returned = subtract(args, environ);
+		else if (funcName.equals("multiply")) returned = multiply(args, environ);
+		else if (funcName.equals("divide")) returned = divide(args, environ);
+
 		
 		//TODO: NEEDS DEBUG BAD
 		else {
@@ -191,5 +196,35 @@ public class Builtin {
 			else returned = Language.eval(args.car(), environ);
 		}
 		return returned;
+	}
+	
+	public static BobObject sum(BobList args, Environment environ ) throws BobException {
+		double sum = 0;
+		if (args.getValue().size() >= 2) {
+			for (BobObject number : args.getValue()) {
+				number = Language.eval(number, environ);
+				if (number instanceof BobNumber) {
+					sum += ((BobNumber) number).getValue();
+				}
+				else throw new BobException("ERROR: SUM ONLY EXCEPTS NUMBERS AS ARGS", Language.traceback);
+			}
+		}
+		else throw new BobException("ERROR: BAD ARGS", Language.traceback);
+		return new BobNumber(sum);
+	}
+	
+	public static BobObject subtract(BobList args, Environment environ ) throws BobException {
+		double total = 0;
+		if (args.getValue().size() >= 2) {
+			for (BobObject number : args.getValue()) {
+				number = Language.eval(number, environ);
+				if (number instanceof BobNumber) {
+					total -= ((BobNumber) number).getValue();
+				}
+				else throw new BobException("ERROR: SUM ONLY EXCEPTS NUMBERS AS ARGS", Language.traceback);
+			}
+		}
+		else throw new BobException("ERROR: BAD ARGS", Language.traceback);
+		return new BobNumber(total);
 	}
 }

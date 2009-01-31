@@ -20,7 +20,7 @@ public class Parser {
 		escTokens.put("*", "multiply");
 		escTokens.put("(", "$BEGIN");
 		escTokens.put(")", "$END");
-		escTokens.put("=", "equal");
+		escTokens.put("=", "eq");
 	}
 	
 	public BobList parse( Reader sr ) {
