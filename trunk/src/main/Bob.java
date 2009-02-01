@@ -22,52 +22,51 @@ public class Bob {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
-		
-		//load standard library
-		InputStreamReader stdLib = null;
-		InputStream temp = Class.class.getResourceAsStream("/lib/standard-lib.bob");
-		stdLib = new InputStreamReader( temp );
+		Language.loadStdLib();
 		
 		
-		//load test file src.bob
-		InputStreamReader r = null;
-		InputStream temp2 = Class.class.getResourceAsStream("/lib/src.bob");
-		r = new InputStreamReader(temp2);
-		
-		//stdlib
-		parser.Parser std = new parser.Parser();
-		BobList preLoad = std.parse( (Reader) stdLib);		
-		
-		parser.Parser p = new parser.Parser();
-		BobList tree = p.parse( (Reader) r);
-		
-		//debug
-		//System.out.println(tree);
-		
-		Environment environ = new Environment();
-		
-		try {
-			Language.eval( preLoad, environ );
-		} catch (BobException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if (args.length == 0) {
+			startREPL();
 		}
-		
-		//System.out.println(environ);
-		try {
-			Language.eval( tree, environ );
-		} catch (BobException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		else if (args[0].equals("--test")) {
+			test();
 		}
+		else if (args [0].equals("-i")) {
+			startREPL();
+		}
+		else System.exit(1);
 		
+		
+		
+
+		
+	}
+	
+	public static void startREPL() {
 		try {
 			Language.repl();
 		} catch (BobException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public static void test() {
+		//load test file src.bob
+		InputStreamReader r = null;
+		InputStream temp = Class.class.getResourceAsStream("/lib/src.bob");
+		r = new InputStreamReader(temp);	
 		
+		parser.Parser p = new parser.Parser();
+		BobList tree = p.parse( (Reader) r);
+		
+		
+		try {
+			Language.eval( tree, Language.replEnviron );
+		} catch (BobException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

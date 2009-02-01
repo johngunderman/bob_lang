@@ -2,6 +2,7 @@ package lang;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
@@ -114,6 +115,24 @@ public class Language {
 		line = "blob" + line + "blob";
 		int count = line.split("[)]").length;
 		return count;
+	}
+	
+	public static void loadStdLib() {
+		//load standard library
+		InputStreamReader stdLib = null;
+		InputStream temp = Class.class.getResourceAsStream("/lib/standard-lib.bob");
+		stdLib = new InputStreamReader( temp );
+		
+		//stdlib
+		parser.Parser std = new parser.Parser();
+		BobList preLoad = std.parse( (Reader) stdLib);	
+		
+		try {
+			Language.eval( preLoad, Language.replEnviron );
+		} catch (BobException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

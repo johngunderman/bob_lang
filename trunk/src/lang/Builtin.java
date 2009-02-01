@@ -215,13 +215,52 @@ public class Builtin {
 	
 	public static BobObject subtract(BobList args, Environment environ ) throws BobException {
 		double total = 0;
-		if (args.getValue().size() >= 2) {
-			for (BobObject number : args.getValue()) {
+		if (args.car() instanceof BobNumber) {
+			total = ((BobNumber) args.car()).getValue();
+		}
+		if (args.cdr().getValue().size() >= 1) {
+			for (BobObject number : args.cdr().getValue()) {
 				number = Language.eval(number, environ);
 				if (number instanceof BobNumber) {
 					total -= ((BobNumber) number).getValue();
 				}
 				else throw new BobException("ERROR: SUM ONLY EXCEPTS NUMBERS AS ARGS", Language.traceback);
+			}
+		}
+		else throw new BobException("ERROR: BAD ARGS", Language.traceback);
+		return new BobNumber(total);
+	}
+	
+	public static BobObject multiply(BobList args, Environment environ ) throws BobException {
+		double total = 0;
+		if (args.car() instanceof BobNumber) {
+			total = ((BobNumber) args.car()).getValue();
+		}
+		if (args.cdr().getValue().size() >= 1) {
+			for (BobObject number : args.cdr().getValue()) {
+				number = Language.eval(number, environ);
+				if (number instanceof BobNumber) {
+					total *= ((BobNumber) number).getValue();
+				}
+				else throw new BobException("ERROR: MULTIPLY ONLY EXCEPTS NUMBERS AS ARGS", Language.traceback);
+			}
+		}
+		else throw new BobException("ERROR: BAD ARGS", Language.traceback);
+		return new BobNumber(total);
+	}
+	
+	public static BobObject divide(BobList args, Environment environ ) throws BobException {
+		double total = 0;
+		if (args.car() instanceof BobNumber) {
+			total = ((BobNumber) args.car()).getValue();
+		}
+		if (args.cdr().getValue().size() >= 1) {
+			for (BobObject number : args.cdr().getValue()) {
+				number = Language.eval(number, environ);
+				if (number instanceof BobNumber) {
+					total /= ((BobNumber) number).getValue();
+				}
+				else throw new BobException("ERROR: DIVIDE ONLY EXCEPTS NUMBERS AS ARGS", Language.traceback);
 			}
 		}
 		else throw new BobException("ERROR: BAD ARGS", Language.traceback);
