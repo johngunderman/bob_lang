@@ -110,9 +110,10 @@ public class Language {
 						"these parts, no sir. And STOP CRYING. Its not like I told you\n" +
 						"that the apocalypse was drawing near. Oh, did I mention...\n" +
 						"MEEP.");
+				expr = "";
 				//System.exit(0);
 			}
-			if (expr.equals("about")) {
+			else if (expr.equals("about")) {
 				System.out.println("All bow down and worship the greatness that is Bob.\n" +
 						"The only thing greater than Bob is John (duh).\n" +
 						"Oh, but as far as this whole 'about' thing goes...\n" +
@@ -129,6 +130,7 @@ public class Language {
 						"Scheme, or Python, or C. But he sighed and continued. And the wisdom and\n" +
 						"might that is John, proudly presents to mortals, that which is Bob.\n" +
 						"Enjoy. MEEP.");
+				expr = "";
 				//System.exit(0);
 			}
 			else if (parenCount == 0) {
