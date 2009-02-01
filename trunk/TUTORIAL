@@ -3,3 +3,125 @@ TUTORIAL
 ========
 
 This document gives a basic overview of the features of Bob and how to utilize them.
+
++++++
+KEY:
+
+[]    - argument
+[[]]  - list of arguments
+&[]   - optional argument
+...   - variable number of arguments, where type is type of previous argument
+any   - list or atom
+list  - list in the form ([any] ... )
+atom  - number, string, token
+token - a non-quoted word
+
++++++
+
+
+\=\=\=\=\=\=\=
+STUFF TO KNOW:
+\=\=\=\=\=\=\=
+
+================
+THE QUOTE MACRO:
+================
+
+The quote macro looks like this: '
+It expands to do this:
+    eg: '(a b c) => (quote (a b c))
+
+
+
+\=\=\=\=\=
+FUNCTIONS:
+\=\=\=\=\=
+
+
+=======
+Output:
+=======
+
+(print [any] ... )
+    eg: (print "Hello world!") => null
+        ;prints "Hello world"
+
+		
+(puts [any] ... )
+    eg: (puts "Hello World!") => null
+        ;prints "Hello World!" \n
+====================
+Primitive Operators:
+====================
+
+(quote [any])
+    eg: (quote "blah") => blah
+
+------------------------------------
+(car [list])
+    eg: (car '(a b c)) => a 
+
+------------------------------------
+(cdr [list])
+    eg: (cdr '(a b c)) => (b c)    
+
+------------------------------------
+(list [any] ... )
+    eg: (list a b c) => (a b c)
+
+------------------------------------
+(atom [any])
+    eg: (atom 'a) => true
+        (atom '(a b c)) => false
+
+------------------------------------
+(eq [any] [any])
+    eg: (eq 'a 'a) => true
+        (eq '(la la) '(boom)) => false
+
+------------------------------------
+(cons [atom] [list])
+    eg: (cons 'I '(am cool)) => (I am cool)
+
+------------------------------------
+(cond [[any] [any]] ... )
+    eg: (cond ((atom 'a) ('purple))
+              ('true ('green))) => purple
+              
+
+==================
+Special Operators:
+==================
+
+(define [atom;token] [list/atom] &[list])
+    eg: (define a "hello")
+    eg: (define print-a (a) (puts a))
+
+------------------------------------
+(eval [list])
+    eg: (eval '(car (a b c))
+
+=====
+Math:
+=====
+
+sum(+)
+(+ [atom;number] ... )
+    eg: (+ 1 2 3) => 6
+
+------------------------------------
+subtract(-)
+(- [atom;number] ... )
+    eg: (- 5 3 1) => 1
+
+------------------------------------
+multiply(*)
+(* [atom;number] ... )
+    eg: (* 3 4 2) => 24
+    
+------------------------------------
+divide(/)
+(/ [atom;number] ... )
+    eg: (/ 4 2) => 2
+    
+    

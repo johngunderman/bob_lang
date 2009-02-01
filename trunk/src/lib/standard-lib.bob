@@ -34,4 +34,24 @@
 (define assoc (x y)
   (cond ((eq (caar y) x) (cadar y))
   		('true (assoc x (cdr y))))) 	
+  		
+  		
+(define bob ()
+  (puts "Bob eats you for breakfast. Like a grue. MEEP."))
 	
+(define provoke-bob ()
+  ((puts "NEVER PROVOKE ME!! I WILL STACK OVERFLOW YOU, FOOOOOL!!!!")
+  (provoke-bob)))
+  
+(define how-big-is-my-stack ()
+  ((define helper (x)
+     ((define x (+ x 1))
+      (puts x)
+      (helper x)))
+    (helper 0)))
+    
+(define time-it (expr)
+  ((define a current-time)
+   (eval expr)
+   (define b current-time)
+   (puts (- b a))))

@@ -62,7 +62,10 @@ public class Language {
 		BobObject returned = null;
 		
 		if (expr instanceof BobToken) {
-			return environment.find( expr.toString() );
+			if (((BobToken) expr).getValue().equals("current-time")) {
+				return new BobNumber(System.nanoTime());
+			}
+			else return environment.find( expr.toString() );
 		}
 		else { 
 			returned = expr;
@@ -71,7 +74,12 @@ public class Language {
 	}
 
 	public static void repl() throws BobException {
-		String message = "\nWelcome to Bob (v0.1)! Please enjoy your stay and whatnot. Thanks!";
+		String message = "Welcome to Bob (v0.1)!\n" +
+				"by John Gunderman (2009)" +
+				" johngunderman@gmail.com\n" +
+				"Please enjoy your stay and whatnot. Thanks!\n" +
+				"Type 'about' for more info\n" +
+				"Oh, and type 'help' for help. MEEP.";
 		String expr = new String ("");
 		String line = new String("");
 		//  open up standard input
@@ -95,6 +103,33 @@ public class Language {
 			if (expr.equals("exit") || expr.equals("(exit)")) {
 				System.out.println("Goodbye!");
 				System.exit(0);
+			}
+			else if (expr.equals("help")) {
+				System.out.println("Ha ha. Just kidding (sorry). I'm to lazy to make a\n" +
+						"concise help file, so just read the tutorial. No laziness around\n" +
+						"these parts, no sir. And STOP CRYING. Its not like I told you\n" +
+						"that the apocalypse was drawing near. Oh, did I mention...\n" +
+						"MEEP.");
+				//System.exit(0);
+			}
+			if (expr.equals("about")) {
+				System.out.println("All bow down and worship the greatness that is Bob.\n" +
+						"The only thing greater than Bob is John (duh).\n" +
+						"Oh, but as far as this whole 'about' thing goes...\n" +
+						"Bob was started as a project for John (the Great)'s Comp-Sci\n" +
+						"Class, under the wise mentorship of the one and only Mr. Lew.\n" +
+						"And John spoketh, saying, \"Let there be light.\", and Bob\n" +
+						"sprang forth into existance, fully formed, from John's mind.\n" +
+						"And John saw what he had made, and saw that it was good.\n" +
+						"And John said, \"Bob is like lisp, but cooler, because I made it.\"\n" +
+						"But then John began to read SICP, and soon realized that Scheme was\n" +
+						"almost more godly than he (and definitely more so than Bob). But that\n" +
+						"did not bother John, for he knew that Bob was just a project. And John\n" +
+						"saw the flaws in Bob, because Bob was written in Java, and Java was not\n" +
+						"Scheme, or Python, or C. But he sighed and continued. And the wisdom and\n" +
+						"might that is John, proudly presents to mortals, that which is Bob.\n" +
+						"Enjoy. MEEP.");
+				//System.exit(0);
 			}
 			else if (parenCount == 0) {
 				BobObject value = new BobToken("null");

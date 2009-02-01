@@ -9,3 +9,9 @@ on top of an interpreter on the JVM.
 For a quick installation:
 	- unpackage the tarball and run the .jar archive.
 	
+	
+KNOWN BUGS::
+- (eq '() '())
+    returns false
+    
+- cons'ing empty lists fails

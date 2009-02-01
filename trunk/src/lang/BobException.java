@@ -4,13 +4,20 @@ import java.util.Stack;
 
 public class BobException extends Exception {
 
-	public BobException( String message, Stack<String> traceback ) {
+	
+	public BobException( String message, Stack<String> traceback) {
+		this(message, traceback, true);
+	}
+	
+	public BobException( String message, Stack<String> traceback, boolean exit ) {
 		System.out.println(message);
 		System.out.println("Traceback:");
 		for (int x = 0; x < traceback.size(); x++) {
 				System.out.println( "at:  " + traceback.pop());
 		}
-		System.exit(1);
+		if (exit) {
+			System.exit(1);
+		}
 	}
 	
 }
