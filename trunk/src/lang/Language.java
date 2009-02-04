@@ -92,7 +92,10 @@ public class Language {
 		//  readLine() method
 		while (true) {
 			try {
-				System.out.print("> ");
+				if (parenCount == 0) {
+					System.out.print(">>> ");
+				}
+				else System.out.print("... ");
 				line = br.readLine();
 			} catch (IOException ioe) {
 				System.out.println("IO error in REPL. Uh oh!");
