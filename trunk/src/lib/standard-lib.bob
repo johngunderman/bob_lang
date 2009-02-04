@@ -55,3 +55,20 @@
    (eval expr)
    (define b current-time)
    (puts (- b a))))
+
+;(define foldr (f z xs)
+;  (cond ((null xs) z)
+;        ('true (f (car xs) (foldr f z (cdr xs)))))
+    
+;(define filter (func data)
+;  (cond ((null data) '())
+;        ('true (cons 
+ 
+ 
+(define map (func data)
+  (cond ((null data) '())
+  	    ('true (cons (func (car data)) (map func (cdr data))))))
+  	    
+(define double (x)
+  (+ x x))
+   

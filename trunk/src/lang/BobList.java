@@ -14,7 +14,7 @@ public class BobList extends BobObject<Expression> {
 	public BobObject car() {
 		if (this.getValue().size() > 0) 
 			return this.getValue().get(0);
-		else return new BobToken("f");
+		else return Constant.FALSE;
 		
 	}
 	

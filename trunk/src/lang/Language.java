@@ -11,7 +11,6 @@ import java.util.Stack;
 import parser.Parser;
 
 public class Language {
-
 	public static Stack<String> traceback = new Stack<String>();
 	public static Environment replEnviron = new Environment();
 	
@@ -76,7 +75,7 @@ public class Language {
 		return returned;
 	}
 
-	public static void repl() throws BobException {
+	public static void repl() throws BobException {		
 		String message = "Welcome to Bob (v0.1)!\n" +
 				"by John Gunderman (2009)" +
 				" johngunderman@gmail.com\n" +

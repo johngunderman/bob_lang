@@ -31,6 +31,10 @@ public class Expression extends ArrayList<BobObject> {
 		if (toCompare instanceof Expression) {
 			other = (Expression) toCompare;
 			if (this.size() == other.size()){
+				if (this.size() == 0) {
+					returned = true;
+					return returned;
+				}
 				for (int x = 0; x < this.size(); x++){
 					if (this.get(x).getValue().equals(other.get(x).getValue()) ) {
 						returned = true;
