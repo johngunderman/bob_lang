@@ -13,5 +13,3 @@ For a quick installation:
 KNOWN BUGS::
 - (eq '() '())
     returns false
-    
-- cons'ing empty lists fails
