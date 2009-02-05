@@ -44,12 +44,14 @@ Output:
 
 (print [any] ... )
     eg: (print "Hello world!") => null
-        ;prints "Hello world"
+        Hello world!
 
 		
 (puts [any] ... )
     eg: (puts "Hello World!") => null
-        ;prints "Hello World!" \n
+        Hello World!\n
+        
+        
 ====================
 Primitive Operators:
 ====================
@@ -106,22 +108,29 @@ Math:
 =====
 
 sum(+)
-(+ [atom;number] ... )
+(+ [atom;number] [atom;number] ... )
     eg: (+ 1 2 3) => 6
 
 ------------------------------------
 subtract(-)
-(- [atom;number] ... )
+(- [atom;number] [atom;number] ... )
     eg: (- 5 3 1) => 1
 
 ------------------------------------
 multiply(*)
-(* [atom;number] ... )
+(* [atom;number] [atom;number ]... )
     eg: (* 3 4 2) => 24
     
 ------------------------------------
 divide(/)
-(/ [atom;number] ... )
+(/ [atom;number] [atom;number] ... )
     eg: (/ 4 2) => 2
     
+    
+================
+Other Functions:
+================
+
+See standard-lib.bob for LOTS of functions.
+
     

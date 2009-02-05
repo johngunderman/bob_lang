@@ -8,6 +8,7 @@ public class BobString extends BobObject<String> implements Atom {
 	
 	public String toString() {
 		return "\"" + getValue() + "\"";
+		//return getValue();
 	}
 	
 }

@@ -11,6 +11,7 @@ import java.util.Stack;
 import parser.Parser;
 
 public class Language {
+	public static boolean exitOnError = true;
 	public static Stack<String> traceback = new Stack<String>();
 	public static Environment replEnviron = new Environment();
 	
@@ -75,12 +76,15 @@ public class Language {
 		return returned;
 	}
 
-	public static void repl() throws BobException {		
+	public static void repl() throws BobException {	
+		//we dont want to exit repl if an error occurs.
+		exitOnError = false;
+		
 		String message = "Welcome to Bob (v0.1)!\n" +
 				"by John Gunderman (2009)" +
 				" johngunderman@gmail.com\n" +
 				"Please enjoy your stay and whatnot. Thanks!\n" +
-				"Type 'about' for more info\n" +
+				"Type 'about' for more info, and 'exit' to exit.\n" +
 				"Oh, and type 'help' for help. MEEP.";
 		String expr = new String ("");
 		String line = new String("");
@@ -140,9 +144,14 @@ public class Language {
 			}
 			else if (parenCount == 0) {
 				BobObject value = new BobToken("null");
-				value = eval(parser.parse(new StringReader(expr)), replEnviron);
-				//System.out.println("=> " + value.toString());
-				expr = new String("");
+				try {
+					value = eval(parser.parse(new StringReader(expr)), replEnviron);
+					//System.out.println("=> " + value.toString());
+				} catch (BobException e) {
+					System.out.println("Returning to repl...");
+				} finally {
+					expr = new String("");
+				}
 			}
 		}
 	}

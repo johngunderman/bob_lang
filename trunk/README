@@ -8,8 +8,9 @@ on top of an interpreter on the JVM.
 
 For a quick installation:
 	- unpackage the tarball and run the .jar archive.
-	
-	
-KNOWN BUGS::
-- (eq '() '())
-    returns false
+
+To run, type the following command in the terminal:
+
+    java -jar BobDemo.jar
+    
+    Use the argument -h or --help for options.

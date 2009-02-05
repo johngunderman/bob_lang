@@ -147,18 +147,18 @@ public class Builtin {
 	public static BobObject car( BobList toCar, Environment environ) throws BobException {
 		BobObject returned = null;
 		//take the car of it because apply returns results in list, so we want the list inside the list.
-		BobObject evaled = ((BobList) Language.eval( toCar, environ)).car();
+		BobObject evaled = Language.eval(toCar.car(), environ);
 		if (evaled instanceof BobList ) {
 			returned = ((BobList) evaled).car();
 		}
-		else throw new RuntimeException("EVAL: ERROR: PARAM FOR CAR IS NOT LIST");
+		else throw new BobException("EVAL: ERROR: PARAM FOR CAR IS NOT LIST", Language.traceback);
 		return returned; 
 	}
 	
 	public static BobObject cdr( BobList toCdr, Environment environ ) throws BobException {
 		BobObject returned = null;
 		//take the car of it because apply returns results in list, so we want the list inside the list.
-		BobObject evaled = ( (BobList) Language.eval( toCdr, environ)).car();
+		BobObject evaled = ( (BobList) Language.eval( toCdr.car(), environ));
 		if (evaled instanceof BobList ) {
 			returned = ((BobList) evaled).cdr();
 		}
